@@ -1,7 +1,6 @@
 package com.hexeleries.ambareeshb.kickhackcambium
 
-import android.arch.lifecycle.AndroidViewModel
-import android.arch.lifecycle.LiveData
+import android.arch.lifecycle.MediatorLiveData
 import android.arch.lifecycle.ViewModel
 import com.hexeleries.ambareeshb.kickhackcambium.db.Projects
 
@@ -19,22 +18,19 @@ class ProjectsViewModel() : ViewModel() {
     /**
      * Load all projects from [ProjectRepository]
      */
-    fun loadProjects(): LiveData<List<Projects>> {
-
+    fun loadProjects(): MediatorLiveData<List<Projects>>? {
         return projectRepo.loadProjects()
     }
     /**
-     * Load Alpabetically sorted list of projects.
+     * Load Alphabetically sorted list of projects.
      */
-    fun sortedProjects(): LiveData<List<Projects>> {
-
-        return projectRepo.sortedProjects()
+    fun sortedProjects() {
+         projectRepo.sortedProjects()
     }
     /**
-     * Load Alpabetically sorted list of projects.
+     * Filter projects.
      */
-    fun filteredProjects(value:Int): LiveData<List<Projects>> {
-
-        return projectRepo.filteredProjects(value)
+    fun filteredProjects(value:Int) {
+         projectRepo.filteredProjects(value)
     }
 }

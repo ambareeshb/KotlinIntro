@@ -37,7 +37,7 @@ class ProjectListFragment : Fragment(), ProjectAdapter.ProjectListener {
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        return inflater!!.inflate(R.layout.fragment_project_list, container, false)
+        return inflater?.inflate(R.layout.fragment_project_list, container, false)
     }
 
     /**
@@ -48,13 +48,19 @@ class ProjectListFragment : Fragment(), ProjectAdapter.ProjectListener {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setUpRecycler()
-        ViewModelProviders.of(this).get(ProjectsViewModel::class.java).loadProjects().observe(this,
+
+        ViewModelProviders.of(this).get(ProjectsViewModel::class.java).loadProjects()?.observe(this,
                 object : Observer<List<Projects>> {
                     override fun onChanged(projects: List<Projects>?) {
-                        adapter.setProjectList(projects!!)
-                        if (projects?.size > 0) {
+                        adapter.setProjectList(projects)
+                        if (projects?.isNotEmpty() == true) {//Really !! ('projects' not null
+                            // and 'isNotEmpty()' = true )
                             progressBar.visibility = View.GONE
                             recyclerViewProject.visibility = View.VISIBLE
+                            //Hide snack bar
+                            if (activity is MenuClick) {
+                                (activity as MenuClick).finishUpdate()
+                            }
                         }
                     }
                 })
@@ -68,11 +74,6 @@ class ProjectListFragment : Fragment(), ProjectAdapter.ProjectListener {
         adapter.setListener(this)
         recyclerViewProject.adapter = adapter
         recyclerViewProject.layoutManager = LinearLayoutManager(this.activity, VERTICAL, false)
-        recyclerViewProject.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
-                super.onScrollStateChanged(recyclerView, newState)
-            }
-        })
     }
 
     /**
@@ -89,36 +90,19 @@ class ProjectListFragment : Fragment(), ProjectAdapter.ProjectListener {
      * Sort clicked
      */
     fun sortClicked() {
-        ViewModelProviders.of(this).get(ProjectsViewModel::class.java).sortedProjects().observe(this,
-                object : Observer<List<Projects>> {
-                    override fun onChanged(projects: List<Projects>?) {
-                        adapter.setProjectList(projects!!)
-                        if (projects?.size > 0) {
-                            progressBar.visibility = View.GONE
-                            recyclerViewProject.visibility = View.VISIBLE
-                        }
-                    }
-                })
+        ViewModelProviders.of(this).get(ProjectsViewModel::class.java).sortedProjects()
     }
 
     /**
      * Filter Clicked
      */
-    fun filterClicked(){
-        ViewModelProviders.of(this).get(ProjectsViewModel::class.java).filteredProjects(90000).observe(this,
-                object : Observer<List<Projects>> {
-                    override fun onChanged(projects: List<Projects>?) {
-                        adapter.setProjectList(projects!!)
-                        if (projects?.size > 0) {
-                            progressBar.visibility = View.GONE
-                            recyclerViewProject.visibility = View.VISIBLE
-                        }
-                    }
-                })
+    fun filterClicked() {
+        ViewModelProviders.of(this).get(ProjectsViewModel::class.java).filteredProjects(90000)
     }
 
     interface MenuClick {
         fun sortClicked()
         fun filterClicked()
+        fun finishUpdate()
     }
 }

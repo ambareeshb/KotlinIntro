@@ -1,11 +1,12 @@
 package com.hexeleries.ambareeshb.kickhackcambium.ui.activities
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.Snackbar
+import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import com.hexeleries.ambareeshb.kickhackcambium.App
 import com.hexeleries.ambareeshb.kickhackcambium.R
 import com.hexeleries.ambareeshb.kickhackcambium.dagger.components.ActivityComponent
@@ -13,11 +14,15 @@ import com.hexeleries.ambareeshb.kickhackcambium.dagger.components.DaggerActivit
 import com.hexeleries.ambareeshb.kickhackcambium.dagger.modules.ActivityModule
 import com.hexeleries.ambareeshb.kickhackcambium.ui.ProjectListFragment
 import kotlinx.android.synthetic.main.activity_home.*
+import kotlinx.android.synthetic.main.custom_snack_bar.*
 
-class HomeActivity : AppCompatActivity(),ProjectListFragment.MenuClick {
+class HomeActivity : AppCompatActivity(), ProjectListFragment.MenuClick {
+    override fun finishUpdate() {
+//        hideSnackBar()
+    }
 
 
-    private  val LOG_TAG = "MainActivity"
+    private val LOG_TAG = "MainActivity"
 
     private lateinit var activityComponent: ActivityComponent
 
@@ -42,13 +47,13 @@ class HomeActivity : AppCompatActivity(),ProjectListFragment.MenuClick {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu,menu)
+        menuInflater.inflate(R.menu.menu, menu)
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when(item?.itemId){
-                R.id.search -> Log.d(LOG_TAG,"Search Clicked")
+        when (item?.itemId) {
+            R.id.search -> Log.d(LOG_TAG, "Search Clicked")
             R.id.sort -> sortClicked()
             R.id.filter -> filterClicked()
 
@@ -56,11 +61,12 @@ class HomeActivity : AppCompatActivity(),ProjectListFragment.MenuClick {
         return true
 
     }
+
     /**
      * User clicked on sort.
      */
     override fun sortClicked() {
-        Snackbar.make(homeRoot,"Sorting on project title",Snackbar.LENGTH_SHORT).show()
+        showSnackbar("Sorting on project title")
         val fragment = supportFragmentManager.findFragmentById(R.id.fragment_container) as ProjectListFragment
         fragment.sortClicked()
     }
@@ -69,10 +75,21 @@ class HomeActivity : AppCompatActivity(),ProjectListFragment.MenuClick {
      * User clicked on filter.
      */
     override fun filterClicked() {
-        Snackbar.make(homeRoot,"Filtering backers more than 10",Snackbar.LENGTH_SHORT).show()
+        showSnackbar("Filtering on backers")
         val fragment = supportFragmentManager.findFragmentById(R.id.fragment_container) as ProjectListFragment
         fragment.filterClicked()
 
+    }
+
+    private fun hideSnackBar() {
+        snackbar_text.text = ""
+        snackBar.visibility = View.GONE
+    }
+
+    fun showSnackbar(content: String) {
+//        snackbar_text.text = content
+//        snackBar.visibility = View.VISIBLE
+        Snackbar.make(homeRoot, content, Snackbar.LENGTH_LONG).show()
     }
 
 }

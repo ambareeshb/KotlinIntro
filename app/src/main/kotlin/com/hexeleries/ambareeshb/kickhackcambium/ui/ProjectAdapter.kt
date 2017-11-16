@@ -22,7 +22,6 @@ class ProjectAdapter() : RecyclerView.Adapter<ProjectAdapter.ViewHolder>() {
 
     override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
         holder?.bind(projectList?.get(position))
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
@@ -37,8 +36,9 @@ class ProjectAdapter() : RecyclerView.Adapter<ProjectAdapter.ViewHolder>() {
     /**
      * On successful API update adapter data
      */
-    fun setProjectList(list: List<Projects>) {
+    fun setProjectList(list: List<Projects>?) {
         projectList = list
+        notifyDataSetChanged()
     }
 
     /**
@@ -71,11 +71,11 @@ class ProjectAdapter() : RecyclerView.Adapter<ProjectAdapter.ViewHolder>() {
          * Bind View with Corresponding [Projects]
          */
         fun bind(project: Projects?) {
-            title.setText(project?.title)
-            pledge.setText(getCurrency() + project?.amt)
-            days.setText(getDays(project?.endTime!!))
-            by.setText(project?.by)
-            goto.setOnClickListener(newListener(project?.url,project?.title))
+            days.text = getDays(project?.endTime!!)
+            title.text = project.title
+            pledge.text = getCurrency() + project.amt
+            by.text = project.by
+            goto.setOnClickListener(newListener(project.url, project.title))
         }
 
 
@@ -97,7 +97,7 @@ class ProjectAdapter() : RecyclerView.Adapter<ProjectAdapter.ViewHolder>() {
          * Find number of days from a date to given date.
          * Note: The api is old so dates are reversed in the UI for sensible display.
          */
-        infix fun Date.howManyDaysTo(date: Date): Long {
+        private infix fun Date.howManyDaysTo(date: Date): Long {
             val diff = date.time - this.time
             val daysInMillis = 1000 * 60 * 60 * 24 // 1 sec = 1000 milli;  1 min = 60 sec .... 1 day = 24 hour
             return diff / daysInMillis
@@ -107,15 +107,16 @@ class ProjectAdapter() : RecyclerView.Adapter<ProjectAdapter.ViewHolder>() {
         /**
          * Returns a new [View.OnClickListener] that go to [Projects.url] onClick()
          */
-        private fun newListener(url: String,title:String): View.OnClickListener?
+        private fun newListener(url: String, title: String): View.OnClickListener?
                 = View.OnClickListener {
-            listener.gotoWebPage(url,title) }
+            listener.gotoWebPage(url, title)
+        }
 
 
     }
 
     interface ProjectListener {
-        fun gotoWebPage(url: String,title:String)
+        fun gotoWebPage(url: String, title: String)
     }
 
 }

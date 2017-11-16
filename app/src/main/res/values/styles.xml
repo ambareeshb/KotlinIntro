@@ -23,8 +23,8 @@
         <item name="android:textStyle">bold</item>
     </style>
     <style name="StyleDaysToGo">
-        <item name="android:fontFamily">@font/montserrat_thin</item>
-        <item name="android:textColor">@color/title_color</item>
+        <item name="android:fontFamily">@font/montserrat_light</item>
+        <item name="android:textColor">@color/colorPrimary</item>
         <item name="android:textSize">@dimen/medium_text</item>
         <item name="android:padding">@dimen/small_margin</item>
         <item name="android:background">@color/pldge_money_color</item>
@@ -34,7 +34,7 @@
         <item name="android:fontFamily">@font/montserrat_light</item>
         <item name="android:textColor">@color/pldge_money_color</item>
         <item name="android:padding">@dimen/small_margin</item>
-        <item name="android:background">@color/title_color</item>
+        <item name="android:background">@color/banner_color</item>
     </style>
 
 

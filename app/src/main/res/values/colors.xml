@@ -2,7 +2,8 @@
 <resources>
     <color name="colorPrimary">#3fb57c</color>
     <color name="colorPrimaryDark">#309f73</color>
-    <color name="title_color">#FFB6B6B6</color>
+    <color name="title_color">#5e5e5e</color>
+    <color name="banner_color">#dfdfdf</color>
     <color name="card_bg">#ffffcc</color>
-    <color name="pldge_money_color">#FFDA6030</color>
+    <color name="pldge_money_color">#f4575c</color>
 </resources>
