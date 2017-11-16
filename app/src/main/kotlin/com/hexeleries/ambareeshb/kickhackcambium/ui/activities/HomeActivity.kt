@@ -56,10 +56,8 @@ class HomeActivity : AppCompatActivity(), ProjectListFragment.MenuClick {
             R.id.search -> Log.d(LOG_TAG, "Search Clicked")
             R.id.sort -> sortClicked()
             R.id.filter -> filterClicked()
-
         }
         return true
-
     }
 
     /**
