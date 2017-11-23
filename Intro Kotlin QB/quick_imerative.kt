@@ -1,15 +1,18 @@
 package quick_sort_imperative
 
 fun main(args:Array<String>){
-	var array = arrayOf(3,4,5,1,6,34,23,4,5,12,23)
-	array.forEach{print("$it ,")}
+        var array = args.map{it.toInt()}
+                        .toTypedArray()
+
         val arra_length =  array.size -1
-        println("aray length is $arra_length")
-	quickSort(array,0,0)
-        println("\n The sorted array is")
+	quickSort(array,0,arra_length)
+
+        println("\rSORTED \n")
 	array.forEach{print("$it ,")}
+        println("\n")
 }
 
+//Recursive sort.
 fun quickSort(array:Array<Int>,start:Int,end:Int){
 	
 	if(end - start < 1) return
@@ -17,7 +20,7 @@ fun quickSort(array:Array<Int>,start:Int,end:Int){
         var pivot = array[start]
 	var j = start 
 
-	for(i in start+1 .. end+1){
+	for(i in start+1 .. end){
 		if(array[i] < pivot){
 			++j
 			var temp = array[i]
@@ -26,15 +29,11 @@ fun quickSort(array:Array<Int>,start:Int,end:Int){
 		}
 	}
 
-//        println("\nAfter partition start $start")
- //       array.forEach{print("$it,")}
 
         array[start] = array[j]
 	array[j] = pivot
 
-  //      println("Calling quick sort")
-        quickSort(array,start,j)
-   //     println("Calling quick sort")
+        quickSort(array,start,j-1)
 	quickSort(array,j+1,end)
 	
 }

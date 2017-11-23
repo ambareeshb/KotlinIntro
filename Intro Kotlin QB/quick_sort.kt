@@ -1,9 +1,9 @@
 
+package functional
 
 fun main(args:Array<String>){
-	print(args.length())
 val sorted =  args.map{it.toInt()}.quickSort()
-print (sorted)
+println (sorted)
 	
 }
 fun <T : Comparable<T>> List<T>.quickSort(): List<T> = when {
