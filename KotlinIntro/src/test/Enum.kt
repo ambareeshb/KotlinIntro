@@ -3,7 +3,6 @@ package test
 enum class Teams {TEAM_A() {
     override fun teamName(name: String) {
         println("Team A")
-
     }
 }
 ,
